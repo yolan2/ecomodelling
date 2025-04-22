@@ -33,7 +33,7 @@
     "Python.Spatial_model_0.5_version_movie1.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "last_opened_file_path": "C:/Users/yolan/Dropbox/Downloads - Snelkoppeling.lnk"
   }
 }]]></component>
@@ -61,7 +61,31 @@
       <option name="project" value="LOCAL" />
       <updated>1745310039455</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745314982238</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745314982238</updated>
+    </task>
+    <task id="LOCAL-00003" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745315282389</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745315282389</updated>
+    </task>
+    <task id="LOCAL-00004" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745316537193</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745316537193</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
