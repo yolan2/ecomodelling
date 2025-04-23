@@ -80,8 +80,9 @@ class Individual:
                  x,
                  y,
                  resources,
-                 drawing):
+                 drawing, speed):
         """Initialization"""
+        self.speed = speed
         self.x = x
         self.y = y
         self.angle = rnd.uniform(0, 2 * math.pi)
@@ -89,7 +90,8 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        self.speed = rnd.randint(1, 100)
+        if self.speed == rnd.randint(1, 100):
+            self.speed = rnd.randint(1, 100)
 
     def move(self, max_x, max_y):
         """Calculates movement"""
@@ -119,6 +121,7 @@ class Metapopulation:
         self.saved_frames = []
         self.avg_speeds = []
 
+
     def initialize_pop(self):
         """Initialize individuals"""
         startpop = 200
@@ -129,7 +132,7 @@ class Metapopulation:
             drawing = self.visual.create_individual(x, y)
             self.population.append(Individual(x, y,
                                               start_resources,
-                                              drawing))
+                                              drawing, speed= rnd.randint(1, 100)))
 
     def a_day_in_the_life(self):
         """Replenish patches and draw visual"""
@@ -147,7 +150,7 @@ class Metapopulation:
                     self.population.append(Individual(indiv.x,
                                                       indiv.y,
                                                       cost_of_offspring,
-                                                      drawing))
+                                                      drawing, speed= indiv.speed))
                 # parents die after reproducing
                 self.visual.canvas.delete(indiv.drawing)
             else:
@@ -171,7 +174,7 @@ class Metapopulation:
         for x in range(self.max_x):
             for y in range(self.max_y):
                 self.visual.color_square(self.environment[x, y], x, y)
-        self.environment += .3  # replenish resources in patches
+        self.environment += 1  # replenish resources in patches
         np.clip(self.environment, 0, 100, out=self.environment)
         # amount of resources has to stay between 0 and 100
         print(len(self.population))
@@ -188,13 +191,9 @@ class Metapopulation:
 
 
 meta = Metapopulation(40, 40)
-for timer in range(100):
+for timer in range(40):
     meta.a_day_in_the_life()
 
 # GIF creation
 meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
                           duration=100, loop=1)
-
-
-
-self.visual.root.update()
