@@ -1,0 +1,192 @@
+Index: Spatial_model_0.51.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># -*- coding: utf-8 -*-\r\n\"\"\"\r\nCreated on Wed Apr 16 08:39:37 2014\r\ntest\r\n@author: Jboeye\r\n\"\"\"\r\n\r\nimport random as rnd\r\nimport tkinter as tk\r\nimport numpy as np\r\nimport math as math\r\nimport io\r\nfrom PIL import Image, ImageSequence\r\n\r\n# !! download and install ghostscript 64 bit https://ghostscript.com/releases/gsdnld.html if you get this error !!\r\n\r\n\r\nclass Visual:\r\n    \"\"\"This class arranges the visual output.\"\"\"\r\n    def __init__(self, max_x, max_y):\r\n        \"\"\"Initialize the visual class\"\"\"\r\n        self.zoom = 15\r\n        self.max_x = max_x\r\n        self.max_y = max_y\r\n        self.root = tk.Tk()\r\n        self.canvas = tk.Canvas(self.root,\r\n                                width=self.max_x * self.zoom,\r\n                                height=self.max_y * self.zoom)  # create window\r\n        self.canvas.pack()\r\n        self.canvas.config(background='white')\r\n        self.squares = np.empty((self.max_x, self.max_y), dtype=object)\r\n        self.initialize_squares()\r\n\r\n    def create_individual(self, x, y):\r\n        \"\"\"Create circle for individual\"\"\"\r\n        radius = 0.1\r\n        return self.canvas.create_oval((x - radius) * self.zoom,\r\n                                       (y - radius) * self.zoom,\r\n                                       (x + radius) * self.zoom,\r\n                                       (y + radius) * self.zoom,\r\n                                       outline='black',\r\n                                       fill='black')\r\n\r\n    def move_drawing(self, drawing, x, y):\r\n        radius = 0.1\r\n        self.canvas.coords(drawing, (x - radius) * self.zoom,\r\n                                    (y - radius) * self.zoom,\r\n                                    (x + radius) * self.zoom,\r\n                                    (y + radius) * self.zoom)\r\n\r\n    def color_square(self, resources, x, y):\r\n        \"\"\"Changes the color of the square\"\"\"\r\n        color = resources/float(100)\r\n        if color < 0:\r\n            color = 0\r\n        elif color > 1:\r\n            color = 1\r\n        green = int(255 * color)\r\n        red = 255 - green\r\n        blue = 0\r\n        rgb = red, green, blue\r\n        hex_code = '#%02x%02x%02x' % rgb\r\n        self.canvas.itemconfigure(self.squares[x, y], fill=str(hex_code))\r\n\r\n    def initialize_squares(self):\r\n        \"\"\"returns a square (drawing object)\"\"\"\r\n        for x in range(self.max_x):\r\n            for y in range(self.max_y):\r\n                self.squares[x, y] = self.canvas.create_rectangle(self.zoom * x,\r\n                                                                  self.zoom * y,\r\n                                                                  self.zoom * x + self.zoom,\r\n                                                                  self.zoom * y + self.zoom,\r\n                                                                  outline='black',\r\n                                                                  fill='black')\r\n\r\n\r\nclass Individual:\r\n    \"\"\"Class that regulates individuals and their properties\"\"\"\r\n    def __init__(self,\r\n                 x,\r\n                 y,\r\n                 resources,\r\n                 drawing):\r\n        \"\"\"Initialization\"\"\"\r\n        self.x = x\r\n        self.y = y\r\n        self.angle = rnd.uniform(0, 2 * math.pi)\r\n        self.resources = resources\r\n        self.drawing = drawing\r\n        self.age = 0\r\n        self.reproductive_age = rnd.randint(10, 15)\r\n\r\n    def move(self, max_x, max_y):\r\n        \"\"\"Calculates movement\"\"\"\r\n        speed = 1\r\n        diversion = math.pi / 3.0\r\n        self.resources -= 1\r\n        self.angle += rnd.uniform(-diversion, diversion)\r\n        dx = speed * math.cos(self.angle)\r\n        dy = speed * math.sin(self.angle)\r\n        self.x = (self.x + dx) % max_x\r\n        self.y = (self.y + dy) % max_y\r\n\r\n\r\nclass Metapopulation:\r\n    \"\"\"Contains the whole population, regulates daily affairs\"\"\"\r\n    def __init__(self,\r\n                 max_x,\r\n                 max_y):\r\n        \"\"\"Initialization\"\"\"\r\n        self.max_x = max_x\r\n        self.max_y = max_y\r\n        self.visual = Visual(self.max_x, self.max_y)\r\n        initial_resources = 70\r\n        self.environment = np.zeros((self.max_x, self.max_y)) + initial_resources\r\n        self.population = []\r\n        self.initialize_pop()\r\n        self.saved_frames = []\r\n\r\n    def initialize_pop(self):\r\n        \"\"\"Initialize individuals\"\"\"\r\n        startpop = 100\r\n        start_resources = 10\r\n        for n in range(startpop):\r\n            x = rnd.uniform(0, self.max_x)\r\n            y = rnd.uniform(0, self.max_y)\r\n            drawing = self.visual.create_individual(x, y)\r\n            self.population.append(Individual(x, y,\r\n                                              start_resources,\r\n                                              drawing))\r\n\r\n    def a_day_in_the_life(self):\r\n        \"\"\"Replenish patches and draw visual\"\"\"\r\n        rnd.shuffle(self.population)\r\n        cost_of_offspring = 10\r\n        # shuffle population so that individuals in the beginning of the list\r\n        # don't get an advantage\r\n        oldpop = self.population[:]\r\n        del self.population[:]\r\n        for indiv in oldpop:\r\n            if indiv.age >= indiv.reproductive_age:\r\n                n_offspring = int(indiv.resources) // cost_of_offspring\r\n                for n in range(n_offspring):\r\n                    drawing = self.visual.create_individual(indiv.x, indiv.y)\r\n                    self.population.append(Individual(indiv.x,\r\n                                                      indiv.y,\r\n                                                      cost_of_offspring,\r\n                                                      drawing))\r\n                # parents die after reproducing\r\n                self.visual.canvas.delete(indiv.drawing)\r\n            else:\r\n                if indiv.resources >= 0:\r\n                    indiv.move(self.max_x, self.max_y)\r\n                    self.visual.move_drawing(indiv.drawing,\r\n                                             indiv.x,\r\n                                             indiv.y)\r\n                    if self.environment[int(indiv.x), int(indiv.y)] > 0:\r\n                        if self.environment[int(indiv.x), int(indiv.y)] > 5:\r\n                            self.environment[int(indiv.x), int(indiv.y)] -= 5\r\n                            indiv.resources += 5\r\n                        else:\r\n                            indiv.resources += self.environment[int(indiv.x), int(indiv.y)]\r\n                            self.environment[int(indiv.x), int(indiv.y)] = 0\r\n                    indiv.age += 1\r\n                    self.population.append(indiv)\r\n                else:\r\n                    self.visual.canvas.delete(indiv.drawing)\r\n\r\n        for x in range(self.max_x):\r\n            for y in range(self.max_y):\r\n                self.visual.color_square(self.environment[x, y], x, y)\r\n        self.environment += .3  # replenish resources in patches\r\n        np.clip(self.environment, 0, 100, out=self.environment)\r\n        # amount of resources has to stay between 0 and 100\r\n        print(len(self.population))\r\n        self.visual.root.update()\r\n\r\n        # Saving the frames so a GIF can be created afterward\r\n        postscript = self.visual.canvas.postscript(colormode='color')\r\n        image = Image.open(io.BytesIO(postscript.encode('utf-8')))\r\n        self.saved_frames.append(image)\r\n\r\n\r\nmeta = Metapopulation(40, 40)\r\nfor timer in range(100):\r\n    meta.a_day_in_the_life()\r\n\r\n# GIF creation\r\nmeta.saved_frames[0].save(\"output.gif\", format='GIF', append_images=meta.saved_frames[1:], save_all=True,\r\n                          duration=200, loop=1)\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Spatial_model_0.51.py b/Spatial_model_0.51.py
+--- a/Spatial_model_0.51.py	(revision fb930ce82b4fe7fe70c44ba8e2f1e98857682d67)
++++ b/Spatial_model_0.51.py	(date 1745396259165)
+@@ -89,10 +89,11 @@
+         self.drawing = drawing
+         self.age = 0
+         self.reproductive_age = rnd.randint(10, 15)
++        self.speed = rnd.randint(1, 100)
+ 
+     def move(self, max_x, max_y):
+         """Calculates movement"""
+-        speed = 1
++        speed = np.random.poisson(lam=self.speed)
+         diversion = math.pi / 3.0
+         self.resources -= 1
+         self.angle += rnd.uniform(-diversion, diversion)
+@@ -116,10 +117,11 @@
+         self.population = []
+         self.initialize_pop()
+         self.saved_frames = []
++        self.avg_speeds = []
+ 
+     def initialize_pop(self):
+         """Initialize individuals"""
+-        startpop = 100
++        startpop = 200
+         start_resources = 10
+         for n in range(startpop):
+             x = rnd.uniform(0, self.max_x)
+@@ -180,6 +182,10 @@
+         image = Image.open(io.BytesIO(postscript.encode('utf-8')))
+         self.saved_frames.append(image)
+ 
++        avg_speed = np.mean([indiv.speed for indiv in self.population])
++        self.avg_speeds.append(avg_speed)
++        print(f"Average speed: {avg_speed}")
++
+ 
+ meta = Metapopulation(40, 40)
+ for timer in range(100):
+@@ -187,4 +193,8 @@
+ 
+ # GIF creation
+ meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
+-                          duration=200, loop=1)
++                          duration=100, loop=1)
++
++
++
++self.visual.root.update()
+Index: Spatial_model_0.5_version_movie1.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># -*- coding: utf-8 -*-\r\n\"\"\"\r\nCreated on Wed Apr 16 08:39:37 2014\r\n\r\n@author: Jboeye\r\n\"\"\"\r\n\r\nimport random as rnd\r\nimport numpy as np\r\nimport math\r\nimport matplotlib.pyplot as plt\r\nimport matplotlib.animation as animation\r\n\r\n\r\nclass Individual:\r\n    \"\"\"Class that regulates individuals and their properties\"\"\"\r\n    def __init__(self,\r\n                 x,\r\n                 y,\r\n                 resources):\r\n        \"\"\"Initialization\"\"\"\r\n        self.x = x\r\n        self.y = y\r\n        self.angle = rnd.uniform(0, 2 * math.pi)\r\n        self.resources = resources\r\n        self.age = 0\r\n        self.reproductive_age = rnd.randint(10, 15)\r\n\r\n    def move(self, max_x, max_y):\r\n        \"\"\"Calculates movement\"\"\"\r\n        speed = 1\r\n        diversion = math.pi / 3.0\r\n        self.resources -= 1\r\n        self.angle += rnd.uniform(-diversion, diversion)\r\n        dx = speed * math.cos(self.angle)\r\n        dy = speed * math.sin(self.angle)\r\n        self.x = (self.x + dx) % max_x\r\n        self.y = (self.y + dy) % max_y\r\n\r\n\r\nclass Metapopulation:\r\n    \"\"\"Contains the whole population, regulates daily affairs\"\"\"\r\n    def __init__(self,\r\n                 max_x,\r\n                 max_y):\r\n        \"\"\"Initialization\"\"\"\r\n        self.max_x = max_x\r\n        self.max_y = max_y\r\n        initial_resources = 70\r\n        self.environment = np.zeros((self.max_x, self.max_y)) + initial_resources\r\n        self.population = []\r\n        self.initialize_pop()\r\n\r\n        self.x = []\r\n        self.y1 = []\r\n        self.y2 = []\r\n\r\n    def initialize_pop(self):\r\n        \"\"\"Initialize individuals\"\"\"\r\n        startpop = 100\r\n        start_resources = 10\r\n        for n in range(startpop):\r\n            x = rnd.uniform(0, self.max_x)\r\n            y = rnd.uniform(0, self.max_y)\r\n            self.population.append(Individual(x, y,\r\n                                              start_resources))\r\n\r\n    def a_day_in_the_life(self, timer):\r\n        \"\"\"Replenish patches and draw visual\"\"\"\r\n        dist_pop = np.zeros((self.max_x, self.max_y))\r\n        rnd.shuffle(self.population)\r\n        cost_of_offspring = 10\r\n        # shuffle population so that individuals in the beginning of the list\r\n        # don't get an advantage\r\n        oldpop = self.population[:]\r\n        del self.population[:]\r\n        for indiv in oldpop:\r\n            if indiv.age >= indiv.reproductive_age:\r\n                n_offspring = int(indiv.resources) // cost_of_offspring\r\n                for n in range(n_offspring):\r\n                    self.population.append(Individual(indiv.x,\r\n                                                      indiv.y,\r\n                                                      cost_of_offspring))\r\n                    dist_pop[int(indiv.x), int(indiv.y)] += 1\r\n\r\n            else:\r\n                if indiv.resources >= 0:\r\n                    indiv.move(self.max_x, self.max_y)\r\n                    dist_pop[int(indiv.x), int(indiv.y)] += 1\r\n                    if self.environment[int(indiv.x), int(indiv.y)] > 0:\r\n                        if self.environment[int(indiv.x), int(indiv.y)] > 5:\r\n                            self.environment[int(indiv.x), int(indiv.y)] -= 5\r\n                            indiv.resources += 5\r\n                        else:\r\n                            indiv.resources += self.environment[int(indiv.x), int(indiv.y)]\r\n                            self.environment[int(indiv.x), int(indiv.y)] = 0\r\n                    indiv.age += 1\r\n                    self.population.append(indiv)\r\n\r\n        self.environment += 2  # replenish resources in patches\r\n        np.clip(self.environment, 0, 100, out=self.environment)\r\n        # amount of resources has to stay between 0 and 100\r\n        self.x.append(timer)\r\n        print(len(self.population))\r\n        self.y1.append(len(self.population))\r\n        self.y2.append(np.mean(self.environment))\r\n        # saving frames of movie\r\n        ima = ax1.imshow(dist_pop, animated=True, cmap='Greens', interpolation='none', origin=\"upper\")\r\n        imb = ax2.imshow(self.environment, animated=True, vmax=100, cmap='YlOrBr', interpolation='none', origin=\"upper\")\r\n        imc = ax3.plot(self.x, self.y1, 'b', animated=True)\r\n        imd = ax4.plot(self.x, self.y2, 'r', animated=True)\r\n        ims.append([ima, imb, imc[0], imd[0]])\r\n\r\n\r\nmeta = Metapopulation(40, 40)\r\n# defining number of figures in movie\r\nims = []\r\nfig1, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(7, 7))\r\n\r\nax1.set_title('Distribution of population')\r\nax2.set_title('Distribution of resource')\r\nax3.set_title('Population size')\r\nax4.set_title('Amount of resources')\r\n\r\nfor timer in range(100):\r\n    meta.a_day_in_the_life(timer)\r\n\r\n\r\n# creating and saving movie\r\nani1 = animation.ArtistAnimation(fig1, ims, interval=250, blit=False, repeat_delay=1000)\r\nani1.save('mg.gif',  writer='pillow', dpi=200)\r\n\r\nprint(\"GIF created\")\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Spatial_model_0.5_version_movie1.py b/Spatial_model_0.5_version_movie1.py
+--- a/Spatial_model_0.5_version_movie1.py	(revision fb930ce82b4fe7fe70c44ba8e2f1e98857682d67)
++++ b/Spatial_model_0.5_version_movie1.py	(date 1745318202184)
+@@ -102,6 +102,13 @@
+         # amount of resources has to stay between 0 and 100
+         self.x.append(timer)
+         print(len(self.population))
++        # calculate average speed
++        if self.population:
++            avg_speed = np.mean([indiv.speed for indiv in self.population if hasattr(indiv, 'speed')])
++        else:
++            avg_speed = 0
++        self.y3.append(avg_speed)
++
+         self.y1.append(len(self.population))
+         self.y2.append(np.mean(self.environment))
+         # saving frames of movie
+@@ -110,6 +117,12 @@
+         imc = ax3.plot(self.x, self.y1, 'b', animated=True)
+         imd = ax4.plot(self.x, self.y2, 'r', animated=True)
+         ims.append([ima, imb, imc[0], imd[0]])
++        ime = ax4.plot(self.x, self.y3, 'g', animated=True)
++        ims.append([ima, imb, imc[0], imd[0], ime[0]])  # updated to include avg speed plot
++
++
++
++
+ 
+ 
+ meta = Metapopulation(40, 40)
+@@ -123,7 +136,7 @@
+ ax4.set_title('Amount of resources')
+ 
+ for timer in range(100):
+-    meta.a_day_in_the_life(timer)
++    meta.a_day_in_the_life()
+ 
+ 
+ # creating and saving movie
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"a6cb818f-61af-4786-9146-047ed488b053\" name=\"Changes\" comment=\"amen\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\"><![CDATA[{\r\n  \"associatedIndex\": 3\r\n}]]></component>\r\n  <component name=\"ProjectId\" id=\"2w4kzPbGV3QRc70eh5dWpR7yh29\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"Python.Spatial_model_0.51.executor\": \"Run\",\r\n    \"Python.Spatial_model_0.5_version_movie1.executor\": \"Run\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"last_opened_file_path\": \"C:/Users/yolan/Dropbox/Downloads - Snelkoppeling.lnk\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-c69650fc56ca-d3b881c8e49f-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-233.15619.17\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"a6cb818f-61af-4786-9146-047ed488b053\" name=\"Changes\" comment=\"\" />\r\n      <created>1745308494957</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1745308494957</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"amen\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1745310039455</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1745310039455</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"amen\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1745314982238</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1745314982238</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"amen\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1745315282389</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1745315282389</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"amen\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1745316537193</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1745316537193</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"5\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"amen\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"amen\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision fb930ce82b4fe7fe70c44ba8e2f1e98857682d67)
++++ b/.idea/workspace.xml	(date 1745396269586)
+@@ -6,6 +6,8 @@
+   <component name="ChangeListManager">
+     <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="amen">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Spatial_model_0.51.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.51.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/Spatial_model_0.5_version_movie1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.5_version_movie1.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -15,9 +17,9 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
+-  <component name="ProjectColorInfo"><![CDATA[{
+-  "associatedIndex": 3
+-}]]></component>
++  <component name="ProjectColorInfo">{
++  &quot;associatedIndex&quot;: 3
++}</component>
+   <component name="ProjectId" id="2w4kzPbGV3QRc70eh5dWpR7yh29" />
+   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+     <ConfirmationsSetting value="2" id="Add" />
+@@ -26,17 +28,17 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "Python.Spatial_model_0.51.executor": "Run",
+-    "Python.Spatial_model_0.5_version_movie1.executor": "Run",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "last_opened_file_path": "C:/Users/yolan/Dropbox/Downloads - Snelkoppeling.lnk"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;Python.Spatial_model_0.51.executor&quot;: &quot;Run&quot;,
++    &quot;Python.Spatial_model_0.5_version_movie1.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;last_opened_file_path&quot;: &quot;C:/Users/yolan/Dropbox/Downloads - Snelkoppeling.lnk&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+@@ -85,8 +87,27 @@
+       <option name="project" value="LOCAL" />
+       <updated>1745316537193</updated>
+     </task>
+-    <option name="localTasksCounter" value="5" />
++    <task id="LOCAL-00005" summary="amen">
++      <option name="closed" value="true" />
++      <created>1745316566754</created>
++      <option name="number" value="00005" />
++      <option name="presentableId" value="LOCAL-00005" />
++      <option name="project" value="LOCAL" />
++      <updated>1745316566754</updated>
++    </task>
++    <option name="localTasksCounter" value="6" />
+     <servers />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
+   </component>
+   <component name="VcsManagerConfiguration">
+     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
