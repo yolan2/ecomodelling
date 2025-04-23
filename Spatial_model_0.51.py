@@ -89,10 +89,11 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
+        self.speed = rnd.randint(1, 100)
 
     def move(self, max_x, max_y):
         """Calculates movement"""
-        speed = 1
+        speed = np.random.poisson(lam=self.speed)
         diversion = math.pi / 3.0
         self.resources -= 1
         self.angle += rnd.uniform(-diversion, diversion)
@@ -116,10 +117,11 @@ class Metapopulation:
         self.population = []
         self.initialize_pop()
         self.saved_frames = []
+        self.avg_speeds = []
 
     def initialize_pop(self):
         """Initialize individuals"""
-        startpop = 100
+        startpop = 200
         start_resources = 10
         for n in range(startpop):
             x = rnd.uniform(0, self.max_x)
@@ -180,6 +182,10 @@ class Metapopulation:
         image = Image.open(io.BytesIO(postscript.encode('utf-8')))
         self.saved_frames.append(image)
 
+        avg_speed = np.mean([indiv.speed for indiv in self.population])
+        self.avg_speeds.append(avg_speed)
+        print(f"Average speed: {avg_speed}")
+
 
 meta = Metapopulation(40, 40)
 for timer in range(100):
@@ -187,4 +193,8 @@ for timer in range(100):
 
 # GIF creation
 meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
-                          duration=200, loop=1)
+                          duration=100, loop=1)
+
+
+
+self.visual.root.update()

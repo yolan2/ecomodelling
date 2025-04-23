@@ -102,6 +102,13 @@ class Metapopulation:
         # amount of resources has to stay between 0 and 100
         self.x.append(timer)
         print(len(self.population))
+        # calculate average speed
+        if self.population:
+            avg_speed = np.mean([indiv.speed for indiv in self.population if hasattr(indiv, 'speed')])
+        else:
+            avg_speed = 0
+        self.y3.append(avg_speed)
+
         self.y1.append(len(self.population))
         self.y2.append(np.mean(self.environment))
         # saving frames of movie
@@ -110,6 +117,12 @@ class Metapopulation:
         imc = ax3.plot(self.x, self.y1, 'b', animated=True)
         imd = ax4.plot(self.x, self.y2, 'r', animated=True)
         ims.append([ima, imb, imc[0], imd[0]])
+        ime = ax4.plot(self.x, self.y3, 'g', animated=True)
+        ims.append([ima, imb, imc[0], imd[0], ime[0]])  # updated to include avg speed plot
+
+
+
+
 
 
 meta = Metapopulation(40, 40)
@@ -123,7 +136,7 @@ ax3.set_title('Population size')
 ax4.set_title('Amount of resources')
 
 for timer in range(100):
-    meta.a_day_in_the_life(timer)
+    meta.a_day_in_the_life()
 
 
 # creating and saving movie
