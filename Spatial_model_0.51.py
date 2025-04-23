@@ -165,7 +165,7 @@ class Metapopulation:
                             indiv.resources += 5
                         else:
                             indiv.resources += self.environment[int(indiv.x), int(indiv.y)]
-                            self.environment[int(indiv.x), int(indiv.y)] = 0
+                            self.environment[int(indiv.x), int(indiv.y)] = 0.1
                     indiv.age += 1
                     self.population.append(indiv)
                 else:
@@ -174,7 +174,7 @@ class Metapopulation:
         for x in range(self.max_x):
             for y in range(self.max_y):
                 self.visual.color_square(self.environment[x, y], x, y)
-        self.environment += 1  # replenish resources in patches
+        self.environment[self.environment != 0] += 0.5
         np.clip(self.environment, 0, 100, out=self.environment)
         # amount of resources has to stay between 0 and 100
         print(len(self.population))
