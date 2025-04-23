@@ -114,7 +114,7 @@ class Metapopulation:
         self.max_x = max_x
         self.max_y = max_y
         self.visual = Visual(self.max_x, self.max_y)
-        initial_resources = 70
+        initial_resources = 20
         self.environment = np.zeros((self.max_x, self.max_y)) + initial_resources
         self.population = []
         self.initialize_pop()

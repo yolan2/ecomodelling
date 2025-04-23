@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="amen">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Spatial_model_0.51.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.51.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Spatial_model_0.5_version_movie1.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.5_version_movie1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.gif" beforeDir="false" afterPath="$PROJECT_DIR$/output.gif" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +15,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
@@ -95,7 +95,71 @@
       <option name="project" value="LOCAL" />
       <updated>1745316566754</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745396522248</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745396522248</updated>
+    </task>
+    <task id="LOCAL-00007" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745396570136</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745396570136</updated>
+    </task>
+    <task id="LOCAL-00008" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399551266</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399551266</updated>
+    </task>
+    <task id="LOCAL-00009" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399600294</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399600294</updated>
+    </task>
+    <task id="LOCAL-00010" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399661376</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399661376</updated>
+    </task>
+    <task id="LOCAL-00011" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399670910</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399670910</updated>
+    </task>
+    <task id="LOCAL-00012" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399874833</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399874833</updated>
+    </task>
+    <task id="LOCAL-00013" summary="amen">
+      <option name="closed" value="true" />
+      <created>1745399888218</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1745399888218</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
