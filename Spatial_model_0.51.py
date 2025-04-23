@@ -50,11 +50,11 @@ class Visual:
 
     def color_square(self, resources, x, y):
         """Changes the color of the square"""
-        color = resources/float(100)
-        if color < 0:
-            color = 0
-        elif color > 1:
-            color = 1
+        min_res = 1
+        max_res = 10
+        color = (resources - min_res) / float(max_res - min_res)
+        color = max(0, min(1, color))
+
         green = int(255 * color)
         red = 255 - green
         blue = 0
@@ -90,8 +90,8 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        if self.speed == rnd.randint(1, 100):
-            self.speed = rnd.randint(1, 100)
+        if self.speed == rnd.randint(1, 10):
+            self.speed = np.random.poisson(lam=self.speed)
 
     def move(self, max_x, max_y):
         """Calculates movement"""
@@ -115,7 +115,7 @@ class Metapopulation:
         self.max_y = max_y
         self.visual = Visual(self.max_x, self.max_y)
         initial_resources = 20
-        self.environment = np.zeros((self.max_x, self.max_y)) + initial_resources
+        self.environment = np.where(np.random.rand(self.max_x, self.max_y) < 0.6, initial_resources, 0.0)
         self.population = []
         self.initialize_pop()
         self.saved_frames = []
@@ -132,7 +132,7 @@ class Metapopulation:
             drawing = self.visual.create_individual(x, y)
             self.population.append(Individual(x, y,
                                               start_resources,
-                                              drawing, speed= rnd.randint(1, 100)))
+                                              drawing, speed= rnd.randint(1, 10)))
 
     def a_day_in_the_life(self):
         """Replenish patches and draw visual"""
@@ -191,7 +191,7 @@ class Metapopulation:
 
 
 meta = Metapopulation(40, 40)
-for timer in range(40):
+for timer in range(500):
     meta.a_day_in_the_life()
 
 # GIF creation
