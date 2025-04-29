@@ -91,10 +91,12 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        if self.speed1 == rnd.randint(1, 10):
-            self.speed1 = np.random.poisson(lam=self.speed1)
-        if self.speed2/2 == rnd.randint(1, 10):
-            self.speed2 = np.random.poisson(lam=self.speed2)
+        if self.speed1 == rnd.randint(1, 5):
+            random = rnd.randint((self.speed1 -1), (self.speed1 +1))
+            self.speed1 = random
+        if self.speed2/2 == rnd.randint(1, 5):
+            random = rnd.randint((self.speed1 - 1), (self.speed1 + 1))
+            self.speed2 = random
 
     def move(self, max_x, max_y, environment):
         """Calculates movement"""
