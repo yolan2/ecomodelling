@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+    <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Spatial_model_0.51.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.51.py" afterDir="false" />
     </list>
@@ -15,7 +15,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -300,7 +299,95 @@
       <option name="project" value="LOCAL" />
       <updated>1745919243627</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919982408</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919982408</updated>
+    </task>
+    <task id="LOCAL-00030" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919986535</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919986535</updated>
+    </task>
+    <task id="LOCAL-00031" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920127304</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920127304</updated>
+    </task>
+    <task id="LOCAL-00032" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920331473</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920331473</updated>
+    </task>
+    <task id="LOCAL-00033" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920337903</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920337903</updated>
+    </task>
+    <task id="LOCAL-00034" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920342988</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920342988</updated>
+    </task>
+    <task id="LOCAL-00035" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920357291</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920357291</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920492716</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920492716</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920562748</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920562748</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920615158</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920615158</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745920661361</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1745920661361</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,9 +408,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="amen" />
     <MESSAGE value="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/main'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pythonProject$Spatial_model_0_51.coverage" NAME="Spatial_model_0.51 Coverage Results" MODIFIED="1745919834479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject$Spatial_model_0_51.coverage" NAME="Spatial_model_0.51 Coverage Results" MODIFIED="1745921538730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

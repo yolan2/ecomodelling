@@ -91,10 +91,10 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        if rnd.randint(1, 5) == rnd.randint(1, 5):
-            random = rnd.randint(1, 10)
+        if rnd.randint(1, 5) == rnd.randint(1, 5) and self.speed1 > 1:
+            random = rnd.randint(self.speed1 -1, self.speed1 +1)
             self.speed1 = random
-        if rnd.randint(1, 5) == rnd.randint(1, 5) and prob > 0.04:
+        if rnd.randint(1, 5) == rnd.randint(1, 5) and self.prob > 0.04:
             random_value = rnd.uniform(self.prob - 0.04, self.prob + 0.04)
             self.prob = random_value
 
@@ -110,10 +110,10 @@ class Individual:
 
         #if rnd.randint(0, 30) == rnd.randint(0, 30):
         #    speed = np.random.poisson(lam=self.prob)
-        if rnd.random() < self.prob: # the chance of prob is the chance that this gets triggerd
+        if rnd.random() < self.prob and avg_resources <1.5: # the chance of prob is the chance that this gets triggerd
             self.x = rnd.uniform(0, max_x)
             self.y = rnd.uniform(0, max_y)
-            self.resources -= 1
+            self.resources -= 0.2
         speed = np.random.poisson(lam=self.speed1)
 
         self.resources -= 1
@@ -235,5 +235,5 @@ for timer in range(500):
     meta.a_day_in_the_life()
 
 # GIF creation
-meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
-                          duration=100, loop=1)
+#meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
+#                          duration=100, loop=1)
