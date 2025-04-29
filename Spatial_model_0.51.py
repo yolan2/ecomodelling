@@ -95,8 +95,8 @@ class Individual:
             random = rnd.randint((self.speed1 -1), (self.speed1 +1))
             self.speed1 = random
         if rnd.randint(1, 5) == rnd.randint(1, 5) and prob > 0.04:
-            random = rnd.randint((self.prob - 0.04), (self.prob + 0.04))
-            self.prob = random
+            random_value = rnd.uniform(self.prob - 0.04, self.prob + 0.04)
+            self.prob = random_value
 
     def move(self, max_x, max_y, environment):
         """Calculates movement"""
@@ -111,11 +111,9 @@ class Individual:
         #if rnd.randint(0, 30) == rnd.randint(0, 30):
         #    speed = np.random.poisson(lam=self.prob)
         if rnd.random() < self.prob: # the chance of prob is the chance that this gets triggerd
-            self.x = rnd.uniform(O, self.max_x)
-            self.y = rnd.uniform(O, self.max_y)
-
-        else:
-            speed = np.random.poisson(lam=self.speed1)
+            self.x = rnd.uniform(0, max_x)
+            self.y = rnd.uniform(0, max_y)
+        speed = np.random.poisson(lam=self.speed1)
 
         self.resources -= 1
 
@@ -155,7 +153,7 @@ class Metapopulation:
         self.initialize_pop()
         self.saved_frames = []
         self.avg_speeds1 = []
-        self.avg_speeds2 = []
+        self.avg_probs2 = []
 
 
     def initialize_pop(self):
@@ -167,10 +165,10 @@ class Metapopulation:
             y = rnd.uniform(0, self.max_y)
             drawing = self.visual.create_individual(x, y)
             speed1 = rnd.randint(1, 5)
-            self.prob = rnd.random()
+            prob = rnd.random()
             self.population.append(Individual(x, y,
                                               start_resources,
-                                              drawing, speed1= speed1, prob = self.prob))
+                                              drawing, speed1= speed1, prob = prob))
 
     def a_day_in_the_life(self):
         """Replenish patches and draw visual"""

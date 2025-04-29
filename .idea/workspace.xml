@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
+    <list default="true" id="a6cb818f-61af-4786-9146-047ed488b053" name="Changes" comment="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Spatial_model_0.51.py" beforeDir="false" afterPath="$PROJECT_DIR$/Spatial_model_0.51.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -265,7 +268,39 @@
       <option name="project" value="LOCAL" />
       <updated>1745919081725</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919114729</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919114729</updated>
+    </task>
+    <task id="LOCAL-00026" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919183166</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919183166</updated>
+    </task>
+    <task id="LOCAL-00027" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919212767</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919212767</updated>
+    </task>
+    <task id="LOCAL-00028" summary="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py">
+      <option name="closed" value="true" />
+      <created>1745919243627</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1745919243627</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -289,6 +324,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="amen&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;Spatial_model_0.51.py" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/pythonProject$Spatial_model_0_51.coverage" NAME="Spatial_model_0.51 Coverage Results" MODIFIED="1745918872553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/pythonProject$Spatial_model_0_51.coverage" NAME="Spatial_model_0.51 Coverage Results" MODIFIED="1745919834479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
