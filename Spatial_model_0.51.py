@@ -91,8 +91,8 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        if rnd.randint(1, 5) == rnd.randint(1, 5) and self.speed1 > 1:
-            random = rnd.randint((self.speed1 -1), (self.speed1 +1))
+        if rnd.randint(1, 5) == rnd.randint(1, 5):
+            random = rnd.randint(1, 10)
             self.speed1 = random
         if rnd.randint(1, 5) == rnd.randint(1, 5) and prob > 0.04:
             random_value = rnd.uniform(self.prob - 0.04, self.prob + 0.04)
@@ -113,6 +113,7 @@ class Individual:
         if rnd.random() < self.prob: # the chance of prob is the chance that this gets triggerd
             self.x = rnd.uniform(0, max_x)
             self.y = rnd.uniform(0, max_y)
+            self.resources -= 1
         speed = np.random.poisson(lam=self.speed1)
 
         self.resources -= 1
