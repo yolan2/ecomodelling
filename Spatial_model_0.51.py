@@ -51,7 +51,7 @@ class Visual:
     def color_square(self, resources, x, y):
         """Changes the color of the square"""
         min_res = 1
-        max_res = 10
+        max_res = 5
         color = (resources - min_res) / float(max_res - min_res)
         color = max(0, min(1, color))
 
@@ -80,9 +80,10 @@ class Individual:
                  x,
                  y,
                  resources,
-                 drawing, speed):
+                 drawing, speed1, speed2):
         """Initialization"""
-        self.speed = speed
+        self.speed1 = speed1
+        self.speed2 = speed2
         self.x = x
         self.y = y
         self.angle = rnd.uniform(0, 2 * math.pi)
@@ -90,14 +91,31 @@ class Individual:
         self.drawing = drawing
         self.age = 0
         self.reproductive_age = rnd.randint(10, 15)
-        if self.speed == rnd.randint(1, 10):
-            self.speed = np.random.poisson(lam=self.speed)
+        if self.speed1 == rnd.randint(1, 10):
+            self.speed1 = np.random.poisson(lam=self.speed1)
+        if self.speed2/2 == rnd.randint(1, 10):
+            self.speed2 = np.random.poisson(lam=self.speed2)
 
-    def move(self, max_x, max_y):
+    def move(self, max_x, max_y, environment):
         """Calculates movement"""
-        speed = np.random.poisson(lam=self.speed)
+        min_x_kernel = max(0, int(self.x - 1.1))
+        max_x_kernel = min(environment.shape[0] - 1, int(self.x + 1.1))
+        min_y_kernel = max(0, int(self.y - 1.1))
+        max_y_kernel = min(environment.shape[1] - 1, int(self.y + 1.1))
+
+        sub_grid = environment[min_x_kernel:max_x_kernel + 1, min_y_kernel:max_y_kernel + 1]
+        avg_resources = np.mean(sub_grid)
+
+        if rnd.randint(0, 30) == rnd.randint(0, 30):
+            speed = np.random.poisson(lam=self.speed2)
+
+        else:
+            speed = np.random.poisson(lam=self.speed1)
+
+        self.resources -= (speed / 30)
+
         diversion = math.pi / 3.0
-        self.resources -= 1
+
         self.angle += rnd.uniform(-diversion, diversion)
         dx = speed * math.cos(self.angle)
         dy = speed * math.sin(self.angle)
@@ -114,12 +132,25 @@ class Metapopulation:
         self.max_x = max_x
         self.max_y = max_y
         self.visual = Visual(self.max_x, self.max_y)
-        initial_resources = 20
-        self.environment = np.where(np.random.rand(self.max_x, self.max_y) < 0.6, initial_resources, 0.0)
+        initial_resources = 5
+        noise = np.random.rand(self.max_x, self.max_y)
+
+        # Manually smooth the noise to create clustering (3x3 average)
+        padded = np.pad(noise, pad_width=1, mode='wrap')
+        smoothed = (
+                           padded[:-2, :-2] + padded[:-2, 1:-1] + padded[:-2, 2:] +
+                           padded[1:-1, :-2] + padded[1:-1, 1:-1] + padded[1:-1, 2:] +
+                           padded[2:, :-2] + padded[2:, 1:-1] + padded[2:, 2:]
+                   ) / 9.0
+
+        # Threshold to get 60% resource coverage
+        threshold = np.percentile(smoothed, 40)  # 60% will be above this value
+        self.environment = np.where(smoothed > threshold, initial_resources, 0.0)
         self.population = []
         self.initialize_pop()
         self.saved_frames = []
-        self.avg_speeds = []
+        self.avg_speeds1 = []
+        self.avg_speeds2 = []
 
 
     def initialize_pop(self):
@@ -130,9 +161,10 @@ class Metapopulation:
             x = rnd.uniform(0, self.max_x)
             y = rnd.uniform(0, self.max_y)
             drawing = self.visual.create_individual(x, y)
+            speed1 = rnd.randint(1, 10)
             self.population.append(Individual(x, y,
                                               start_resources,
-                                              drawing, speed= rnd.randint(1, 10)))
+                                              drawing, speed1= speed1, speed2 = 2*speed1))
 
     def a_day_in_the_life(self):
         """Replenish patches and draw visual"""
@@ -150,12 +182,12 @@ class Metapopulation:
                     self.population.append(Individual(indiv.x,
                                                       indiv.y,
                                                       cost_of_offspring,
-                                                      drawing, speed= indiv.speed))
+                                                      drawing, speed1= indiv.speed1, speed2= indiv.speed2))
                 # parents die after reproducing
                 self.visual.canvas.delete(indiv.drawing)
             else:
                 if indiv.resources >= 0:
-                    indiv.move(self.max_x, self.max_y)
+                    indiv.move(self.max_x, self.max_y, self.environment)
                     self.visual.move_drawing(indiv.drawing,
                                              indiv.x,
                                              indiv.y)
@@ -174,7 +206,7 @@ class Metapopulation:
         for x in range(self.max_x):
             for y in range(self.max_y):
                 self.visual.color_square(self.environment[x, y], x, y)
-        self.environment[self.environment != 0] += 0.5
+        self.environment[self.environment != 0] += 0.1
         np.clip(self.environment, 0, 100, out=self.environment)
         # amount of resources has to stay between 0 and 100
         print(len(self.population))
@@ -185,9 +217,12 @@ class Metapopulation:
         image = Image.open(io.BytesIO(postscript.encode('utf-8')))
         self.saved_frames.append(image)
 
-        avg_speed = np.mean([indiv.speed for indiv in self.population])
-        self.avg_speeds.append(avg_speed)
-        print(f"Average speed: {avg_speed}")
+        avg_speed1 = np.mean([indiv.speed1 for indiv in self.population])
+        avg_speed2 = np.mean([indiv.speed2 for indiv in self.population])
+        self.avg_speeds1.append(avg_speed1)
+        self.avg_speeds2.append(avg_speed2)
+        print(f"Average speed: {avg_speed1}")
+        print(f"Average speed: {avg_speed2}")
 
 
 meta = Metapopulation(40, 40)
