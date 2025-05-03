@@ -113,8 +113,10 @@ class Individual:
         if rnd.random() < self.prob and avg_resources <1.5: # the chance of prob is the chance that this gets triggerd
             self.x = rnd.uniform(0, max_x)
             self.y = rnd.uniform(0, max_y)
-            self.resources -= 0.2
+            self.resources -= 0.1
         speed = np.random.poisson(lam=self.speed1)
+        if self.speed1 > 3:
+            self.resources -= 0.1
 
         self.resources -= 1
 
@@ -165,7 +167,7 @@ class Metapopulation:
             x = rnd.uniform(0, self.max_x)
             y = rnd.uniform(0, self.max_y)
             drawing = self.visual.create_individual(x, y)
-            speed1 = rnd.randint(1, 5)
+            speed1 = rnd.randint(1, 3)
             prob = rnd.random()
             self.population.append(Individual(x, y,
                                               start_resources,
@@ -218,20 +220,20 @@ class Metapopulation:
         self.visual.root.update()
 
         # Saving the frames so a GIF can be created afterward
-        postscript = self.visual.canvas.postscript(colormode='color')
-        image = Image.open(io.BytesIO(postscript.encode('utf-8')))
-        self.saved_frames.append(image)
+        #postscript = self.visual.canvas.postscript(colormode='color')
+        #image = Image.open(io.BytesIO(postscript.encode('utf-8')))
+        #self.saved_frames.append(image)
 
         avg_speed1 = np.mean([indiv.speed1 for indiv in self.population])
         avg_prob = np.mean([indiv.prob for indiv in self.population])
         self.avg_speeds1.append(avg_speed1)
         self.avg_probs2.append(avg_prob)
         print(f"Average speed: {avg_speed1}")
-        print(f"Average speed: {avg_prob}")
+        print(f"Average probability: {avg_prob}")
 
 
 meta = Metapopulation(40, 40)
-for timer in range(500):
+for timer in range(5000):
     meta.a_day_in_the_life()
 
 # GIF creation
