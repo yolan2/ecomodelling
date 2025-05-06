@@ -91,9 +91,9 @@ class Individual:
         min_x, max_x_k = max(0, int(self.x - 1.1)), min(environment.shape[0] - 1, int(self.x + 1.1))
         min_y, max_y_k = max(0, int(self.y - 1.1)), min(environment.shape[1] - 1, int(self.y + 1.1))
         sub_grid = environment[min_x:max_x_k+1, min_y:max_y_k+1]
-        avg_resources = np.mean(sub_grid)
+        #avg_resources = np.mean(sub_grid)
 
-        if rnd.random() < self.prob and avg_resources < 1.5:
+        if rnd.random() < self.prob:
             self.x = rnd.uniform(0, max_x)
             self.y = rnd.uniform(0, max_y)
             self.resources -= 1.5
