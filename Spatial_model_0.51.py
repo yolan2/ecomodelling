@@ -253,8 +253,8 @@ class Metapopulation:
 
 
 # Simulation parameters
-num_simulations = 60  # Number of times to run the entire simulation
-days_per_simulation = 2000  # Number of days per simulation
+num_simulations = 1  # Number of times to run the entire simulation
+days_per_simulation = 200  # Number of days per simulation
 
 # Initialize lists to store results for each simulation
 all_avg_speeds = []
@@ -320,42 +320,73 @@ plt.figure(figsize=(12, 6))
 # Plot average speed
 import matplotlib.pyplot as plt
 
-plt.figure(figsize=(12, 8))  # optional: set figure size
+import matplotlib.pyplot as plt
 
-# Plot 1: Average Speed
-plt.subplot(2, 2, 1)
+# 1: Average Speed
+plt.figure()
 plt.plot(final_avg_speeds, color='blue')
 plt.title('Average Speed Over Time (Across Simulations)')
 plt.xlabel('Day')
 plt.ylabel('Average Speed')
 plt.grid()
 
-# Plot 2: Average Probability of Teleporting
-plt.subplot(2, 2, 2)
+# 2: Average Probability of Teleporting
+plt.figure()
 plt.plot(final_avg_probs, color='orange')
 plt.title('Average Probability of Teleporting (Across Simulations)')
 plt.xlabel('Day')
 plt.ylabel('Average Probability')
 plt.grid()
 
-# Plot 3: Relative Teleporting Probability
-plt.subplot(2, 2, 3)
-plt.plot(relative_teleport, color='green')
-plt.title('Relative Teleporting Probability Over Time')
-plt.xlabel('Day')
-plt.ylabel('Relative Probability')
-plt.grid()
-
-# Plot 4: Food Availability
-plt.subplot(2, 2, 4)
+# 3: Food Availability
+plt.figure()
 plt.plot(final_avg_environments, color='red')
 plt.title('Food Availability Over Time (Across Simulations)')
 plt.xlabel('Day')
 plt.ylabel('Food Availability')
 plt.grid()
 
+# 4: Overlay – Food Availability vs Average Speed
+plt.figure()
+ax1 = plt.gca()
+ax2 = ax1.twinx()
+ax1.plot(final_avg_speeds, label='Average Speed', color = 'blue')
+ax2.plot(final_avg_environments, label='Food Availability', color='red')
+ax1.set_xlabel('Day')
+ax1.set_ylabel('Average Speed')
+ax2.set_ylabel('Food Availability')
+lines1, labels1 = ax1.get_legend_handles_labels()
+lines2, labels2 = ax2.get_legend_handles_labels()
+plt.legend(lines1 + lines2, labels1 + labels2, loc='upper right')
+plt.title('Food Availability vs Average Speed Over Time')
+plt.grid()
+
+# 5: Overlay – Food Availability vs Average Probability of Teleporting
+
+
+plt.figure()
+ax3 = plt.gca()
+ax4 = ax3.twinx()
+
+# Explicitly set different colors
+line1, = ax3.plot(final_avg_probs, label='Average Probability of Teleporting', color='orange')
+line2, = ax4.plot(final_avg_environments, label='Food Availability', color='red')
+
+ax3.set_xlabel('Day')
+ax3.set_ylabel('Average Probability of Teleporting')
+ax4.set_ylabel('Food Availability')
+
+# Combine legends from both axes
+ax3.legend(handles=[line1, line2], loc='upper right')
+
+plt.title('Food Availability vs Average Probability of Teleporting Over Time')
+plt.grid()
 plt.tight_layout()
 plt.show()
+
+plt.tight_layout()
+plt.show()
+
 
 # GIF creation
 # meta.saved_frames[0].save("output.gif", format='GIF', append_images=meta.saved_frames[1:], save_all=True,
