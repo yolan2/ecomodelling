@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 16 08:39:37 2014
 
-@author: Jboeye
-"""
 
 import random as rnd
 import numpy as np
